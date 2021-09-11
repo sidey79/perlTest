@@ -28,14 +28,16 @@ jobs:
     - name: install perlcritic
       run: sudo apt-get install libperl-critic-perl
     - name: run perlcritic and send report via reviewdog
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         perlcritic --verbose 1 --profile .perlcritic . | \
-          reviewdog -efm '%f:%l:%c:%m' \
-          -name="perlcritic" \
-          -reporter="github-pr-check" \
-          -filter-mode="added" \
-          -fail-on-error="false" \
-          -level="error" \
+            reviewdog -efm '%f:%l:%c:%m' \
+            -name="perlcritic" \
+            -reporter="github-pr-check" \
+            -filter-mode="added" \
+            -fail-on-error="false" \
+            -level="error" \
     #- uses: gugod/action-perlcritic@fun
     #  with:
     #    perlcritic_flags: --profile .perlcritic .
