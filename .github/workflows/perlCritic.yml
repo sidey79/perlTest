@@ -25,7 +25,9 @@ jobs:
     - uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
-    - name: perlcritic
+    - name: install perlcritic
+      run: sudo apt-get install libperl-critic-perl
+    - name: run perlcritic and send report via reviewdog
       run: |
         perlcritic --verbose 1 --profile .perlcritic . | \
           reviewdog -efm '%f:%l:%c:%m' \
