@@ -93,7 +93,7 @@ sub Hello_Attr {
 		    return "Unknown attr $attr_name";
 		}
 	}
-	return ;
+	return undef;
 }
 
 1;
