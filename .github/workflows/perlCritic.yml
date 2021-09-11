@@ -17,10 +17,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Perl Critic check
-      uses: Difegue/action-perlcritic@2.0.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: reviewdog/action-setup@v1
       with:
-          args: FHEM/*
+        reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
+    - uses: gugod/action-perlcritic@v1
