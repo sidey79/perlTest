@@ -18,10 +18,23 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - uses: shogo82148/actions-setup-perl@v1.12.3
+      with:
+        perl-version: 5.32
+        install-modules-args: Task::PerlCriticAllPolicies
     - uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
-    - uses: gugod/action-perlcritic@fun
-      with:
-        perlcritic_flags: --profile .perlcritic .
+    - name: perlcritic
+      run: |
+        perlcritic --verbose 1 --profile .perlcritic . | \
+          reviewdog -efm '%f:%l:%c:%m' \
+          -name="perlcritic" \
+          -reporter="github-pr-check" \
+          -filter-mode="added" \
+          -fail-on-error="false" \
+          -level="error" \
+    #- uses: gugod/action-perlcritic@fun
+    #  with:
+    #    perlcritic_flags: --profile .perlcritic .
 
