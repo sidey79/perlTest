@@ -20,4 +20,4 @@ jobs:
     - uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
-    - uses: gugod/action-perlcritic@v1
+    - uses: gugod/action-perlcritic@fun
