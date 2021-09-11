@@ -9,7 +9,7 @@ on:
       - 'lib/**'
       - 't/**'
       - '.github/workflows/perlCritic.yml'
-      - 'controls**'
+      - './controls**'
 
 jobs:
   critic:
