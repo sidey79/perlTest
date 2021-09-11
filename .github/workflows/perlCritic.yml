@@ -21,3 +21,6 @@ jobs:
       with:
         reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
     - uses: gugod/action-perlcritic@fun
+      with:
+        perlcritic_flags: --quiet --profile .perlcritic ./FHEM
+
