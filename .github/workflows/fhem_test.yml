@@ -32,8 +32,8 @@ jobs:
       env:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        perlcritic --verbose --profile .perlcritic .
-        perlcritic --verbose --profile .perlcritic . | \
+        perlcritic --verbose 3 --profile .perlcritic .
+        perlcritic --verbose 3 --profile .perlcritic . | \
             reviewdog -efm '%f:%l:%c:%m' \
             -name="perlcritic" \
             -reporter="github-pr-check" \
