@@ -36,9 +36,9 @@ jobs:
             reviewdog -efm '%f:%l:%c:%m' \
             -name="perlcritic" \
             -reporter="github-pr-check" \
-            -filter-mode="added" \
+            -filter-mode="nofilter " \
             -fail-on-error="false" \
-            -level="error" \
+            -level="warning" \
   update_controls:
     env:
       CONTROLS_FILENAME: controls_${{ github.event.repository.name }}.txt
