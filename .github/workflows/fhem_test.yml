@@ -36,7 +36,7 @@ jobs:
             reviewdog -efm '%f:%l:%c:%m' \
             -name="perlcritic" \
             -reporter="github-pr-check" \
-            -filter-mode="nofilter " \
+            -filter-mode="nofilter" \
             -fail-on-error="false" \
             -level="warning" \
   update_controls:
