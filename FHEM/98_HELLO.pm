@@ -34,13 +34,13 @@ sub Hello_Define {
     $hash->{name}  = $param[0];
     $hash->{greet} = $param[2];
     
-    return undef;
+    return ;
 }
 
 sub Hello_Undef {
     my ($hash, $arg) = @_; 
     # nothing to do
-    return ;
+    return undef;
 }
 
 sub Hello_Get {
