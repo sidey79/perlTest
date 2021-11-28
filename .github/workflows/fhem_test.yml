@@ -43,6 +43,7 @@ jobs:
     env:
       CONTROLS_FILENAME: controls_${{ github.event.repository.name }}.txt
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     steps:
     - name: Extract branch name
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/*/})"
