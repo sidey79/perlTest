@@ -22,6 +22,7 @@ jobs:
     - uses: shogo82148/actions-setup-perl@v1.12.3
       with:
         perl-version: 5.32
+        install-modules-with: cpanm
         install-modules: Perl::Critic Task::PerlCriticAllPolicies 
     - uses: reviewdog/action-setup@v1
       with:
