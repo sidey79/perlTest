@@ -22,12 +22,10 @@ jobs:
     - uses: shogo82148/actions-setup-perl@v1.12.3
       with:
         perl-version: 5.32
-        install-modules-args: Task::PerlCriticAllPolicies
+        install-modules: Perl::Critic Task::PerlCriticAllPolicies 
     - uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
-    - name: install perlcritic
-      run: sudo apt-get install libperl-critic-perl
     - name: run perlcritic and send report via reviewdog
       env:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
