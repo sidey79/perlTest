@@ -24,6 +24,7 @@ jobs:
         perl-version: 5.32
         install-modules-with: cpanm
         install-modules: Perl::Critic Task::PerlCriticAllPolicies 
+        install-modules-args: --notest
     - uses: reviewdog/action-setup@v1
       with:
         reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
@@ -85,7 +86,8 @@ jobs:
     - uses: shogo82148/actions-setup-perl@v1.14.0
       with:
         perl-version: ${{ matrix.perl }}
-    - run: cpanm --notest --installdeps .
+        install-modules-with: cpanm
+        install-modules-args: --notest
     - name: install fhem via deb package
       run: |
         wget -qO - http://debian.fhem.de/archive.key | sudo apt-key add -
