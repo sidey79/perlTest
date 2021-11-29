@@ -16,6 +16,7 @@ on:
 jobs:
   critic:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -43,7 +44,7 @@ jobs:
     env:
       CONTROLS_FILENAME: controls_${{ github.event.repository.name }}.txt
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push'
     steps:
     - name: Extract branch name
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/*/})"
@@ -74,7 +75,7 @@ jobs:
         branch: ${{ steps.extract_branch.outputs.branch }}
   test:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push'
     strategy:
       matrix:
         os: ['ubuntu-latest']
