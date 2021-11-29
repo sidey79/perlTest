@@ -73,6 +73,7 @@ jobs:
         branch: ${{ steps.extract_branch.outputs.branch }}
   test:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     strategy:
       matrix:
         os: ['ubuntu-latest']
