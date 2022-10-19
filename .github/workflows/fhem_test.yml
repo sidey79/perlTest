@@ -18,6 +18,9 @@ jobs:
         os: ['ubuntu-latest']
         perl: [ '5.22', '5.28', '5.30', '5.32' ]
 
+    container:
+      image: perldocker/perl-tester:${{ matrix.perl }}
+
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -25,11 +28,10 @@ jobs:
     #- uses: shogo82148/actions-setup-perl@v1.17.0
     #  with:
     #    perl-version: ${{ matrix.perl }}
-
-    - name: install cpan modules
-      run: |
-        cpan App::cpanminus
-        cpanm --notest --installdeps .
+    - name: install cpanm and multiple modules
+      uses: perl-actions/install-with-cpanm@v1
+      with:
+        cpanfile: ./cpanfile 
 
     - name: install fhem via deb package
       run: |
