@@ -1,0 +1,74 @@
+name: Fhem UnitTest wo setup-perl
+on:
+  push:
+    paths:
+      - 'FHEM/**'
+      - 'UnitTest/**'
+      - 't/**'
+      - '.github/workflows/fhem_test.yml'
+  
+  schedule:
+    - cron: '43 17 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: ['ubuntu-latest']
+        perl: [  '5.28' ]
+   # container:
+   #   image: perl:${{ matrix.perl }}
+
+    name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+
+    #- uses: shogo82148/actions-setup-perl@v1.17.0
+    #  with:
+    #    perl-version: ${{ matrix.perl }}
+    - name: install cpanm and multiple modules
+      uses: perl-actions/install-with-cpanm@v1
+      with:
+        cpanfile: ./cpanfile 
+        sudo: true
+
+    - name: install fhem via deb package
+      run: |
+        wget -qO - http://debian.fhem.de/archive.key | sudo apt-key add -
+        echo "deb http://debian.fhem.de/nightly/ /" | sudo tee -a /etc/apt/sources.list
+        sudo apt-get update -qq
+        sudo apt-get install fhem -y
+        sudo systemctl stop fhem
+        sudo chown -R --reference=README.md /opt/fhem
+
+#    - name: run prove on perl modules (testscripts)
+#      run: prove --exec 'perl -MDevel::Cover=-silent,1 -I FHEM ' -I FHEM -r -vv t/FHEM/<packagename>
+
+#    - uses: codecov/codecov-action@v1
+#      with:
+#        token: ${{ secrets.CODECOV_TOKEN }}
+#        file: ./cover_db/clover.xml
+#        flags: unittests,perl,modules
+#        name: perl modules (testscripts) ${{ matrix.perl }}
+
+    - name: run prove fhem testsuite ${{ matrix.perl }} on modules
+      run: |
+        cp -r FHEM/* ${FHEM_DIR}/FHEM/
+        cd ${FHEM_DIR}
+        prove --exec 'perl -MDevel::Cover=-silent,1 fhem.pl -t' -I FHEM -r -vv ${GITHUB_WORKSPACE}/t/FHEM/[0-9][0-9]_*/
+        sleep 3
+        cp -R /opt/fhem/cover_db ${GITHUB_WORKSPACE}/
+        ls -l ${GITHUB_WORKSPACE}
+      env:
+        FHEM_DIR: /opt/fhem
+
+    - name: Create clover report  
+      run: cover -report clover
+
+#    - uses: codecov/codecov-action@v1
+#      with:
+#        token: ${{ secrets.CODECOV_TOKEN }}
+#        file: ./cover_db/clover.xml
+#        flags: unittests,fhem,modules
+#        name: fhem (testscripts) ${{ matrix.perl }}
