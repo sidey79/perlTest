@@ -1,7 +1,6 @@
 name: Fhem UnitTest
 on:
   push:
-    branches:
     paths:
       - 'FHEM/**'
       - 'UnitTest/**'
