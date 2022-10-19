@@ -26,7 +26,10 @@ jobs:
     #  with:
     #    perl-version: ${{ matrix.perl }}
 
-    - run: cpanm --notest --installdeps .
+    - name: install cpan modules
+      run: |
+        cpan App::cpanminus
+        cpanm --notest --installdeps .
 
     - name: install fhem via deb package
       run: |
