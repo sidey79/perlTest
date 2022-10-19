@@ -18,7 +18,7 @@ jobs:
         os: ['ubuntu-latest']
         perl: [ '5.22', '5.28', '5.30', '5.32' ]
     container:
-      image: perldocker/perl-tester:${{ matrix.perl-version }}
+      image: perldocker/perl-tester:${{ matrix.perl }}
 
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
