@@ -35,7 +35,8 @@ jobs:
 
     - name: install fhem via deb package
       run: |
-        apt install sudo
+        apt-get update
+        apt-get install sudo
         wget -qO - http://debian.fhem.de/archive.key | sudo apt-key add -
         echo "deb http://debian.fhem.de/nightly/ /" | sudo tee -a /etc/apt/sources.list
         sudo apt-get update -qq
