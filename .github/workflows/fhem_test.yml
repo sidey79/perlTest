@@ -17,8 +17,8 @@ jobs:
       matrix:
         os: ['ubuntu-latest']
         perl: [ '5.22', '5.28', '5.30', '5.32' ]
-    container:
-      image: perl:${{ matrix.perl }}
+   # container:
+   #   image: perl:${{ matrix.perl }}
 
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
@@ -31,12 +31,10 @@ jobs:
       uses: perl-actions/install-with-cpanm@v1
       with:
         cpanfile: ./cpanfile 
-        sudo: false
+        sudo: true
 
     - name: install fhem via deb package
       run: |
-        apt-get update
-        apt-get install sudo
         wget -qO - http://debian.fhem.de/archive.key | sudo apt-key add -
         echo "deb http://debian.fhem.de/nightly/ /" | sudo tee -a /etc/apt/sources.list
         sudo apt-get update -qq
