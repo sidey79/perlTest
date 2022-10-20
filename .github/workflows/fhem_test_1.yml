@@ -1,13 +1,12 @@
-name: Fhem UnitTest
+name: Fhem UnitTest wo setup-perl
 on:
   push:
-    branches:
     paths:
       - 'FHEM/**'
       - 'UnitTest/**'
       - 't/**'
-      - '.github/workflows/fhem_test.yml'
-  
+      - '.github/workflows/fhem_test**.yml'  
+      
   schedule:
     - cron: '43 17 * * 1'
 
@@ -17,17 +16,22 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest']
-        perl: [ '5.22', '5.28', '5.30', '5.32' ]
+        perl: [  '5.28' ]
+   # container:
+   #   image: perl:${{ matrix.perl }}
 
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
 
-    - uses: shogo82148/actions-setup-perl@v1.17.0
+    #- uses: shogo82148/actions-setup-perl@v1.17.0
+    #  with:
+    #    perl-version: ${{ matrix.perl }}
+    - name: install cpanm and multiple modules
+      uses: perl-actions/install-with-cpanm@v1
       with:
-        perl-version: ${{ matrix.perl }}
-
-    - run: cpanm --notest --installdeps .
+        cpanfile: ./cpanfile 
+        sudo: true
 
     - name: install fhem via deb package
       run: |

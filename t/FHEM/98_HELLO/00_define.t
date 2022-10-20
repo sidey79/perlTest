@@ -18,13 +18,14 @@ InternalTimer(time()+1, sub() {
         like ($ret, qr/too few parameters: define <name> Hello <greet>/, 'check error message Hello_Define');
 
         $ret = Hello_Define(\%hash,qq{$hash{NAME} $hash{TYPE} $hash{DEF}});
-        is ($ret, U(), 'check returnvalue Hello_Define');
+        is ($ret, D(), 'check returnvalue Hello_Define');
     };
 
 
 
     done_testing();
     exit(0);
+
 
 }, 0);
 
